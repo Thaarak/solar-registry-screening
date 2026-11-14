@@ -1,0 +1,31 @@
+name: Test solar screening
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest -q
+      - run: python scripts/demo.py --output data/demo_ranking.csv
+      - name: Verify PostgreSQL workflow
+        run: |
+          docker compose up -d --wait
+          python scripts/load_spain_targets.py examples/registry.csv --skip-cadastral
+          python scripts/run_stage0_ranking.py --as-of 2026-07-01
+          python scripts/run_scoring.py --dry-run --ids "$(cat data/stage0_top100_ids.txt)"
+          python -c 'import csv; from pathlib import Path; assert len(list(csv.DictReader(Path("data/stage0_ranking.csv").open()))) == 3'
+      - name: Stop PostgreSQL
+        if: always()
+        run: docker compose down

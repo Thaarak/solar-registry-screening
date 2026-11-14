@@ -1,0 +1,6 @@
+clave registro,nombre,potencia instalada kw,grupo normativo,fecha de inscripción definitiva,tipo de inscripción,provincia,comunidad autónoma
+DEMO-001,Example Solar A,6400,b.1.1,2009-05-15,Definitiva,Córdoba,Andalucía
+DEMO-002,Example Solar B,950,b.1.1,2011-08-25,Definitiva,Murcia,Murcia
+DEMO-003,Example Solar C,3200,b.1.1,2013-01-12,Definitiva,Segovia,Castilla y León
+DEMO-004,Example Outside Date Range,900,b.1.1,2020-06-18,Definitiva,Murcia,Murcia
+DEMO-005,Example Below Capacity Range,10,b.1.1,2011-04-01,Definitiva,Granada,Andalucía
